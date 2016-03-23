@@ -11,13 +11,11 @@
       <ip value="54.168.81.69"/>
     </client>
     -->
-    <client host="loadnode1" weight="1" maxusers="5000" cpu="1">
-      <ip value="54.168.103.206"></ip>
-    </client>
+    <client host="tsung0" weight="1" maxusers="30000" cpu="1"/>
     
-    <client host="loadnode2" weight="1" maxusers="5000" cpu="1">
-      <ip value="54.168.35.81"></ip>
-    </client>
+    <client host="tsung1" weight="2" maxusers="50000" cpu="1"/>
+    
+    <client host="tsung2" weight="2" maxusers="50000" cpu="1"/>
   </clients>
   
   <!-- Server side setup -->
@@ -33,7 +31,7 @@
 
   <load>
     <arrivalphase phase="1" duration="10" unit="minute">
-      <users interarrival="0.0625" unit="second"></users>
+      <users interarrival="0.005" unit="second"></users>
     </arrivalphase>
   </load>
 
@@ -69,6 +67,7 @@
       <!--
       <for from="1" to="2" incr="1" var="i">
       -->
+      <request> <http url="/standard-platform/api/v1/activityInfo?fb_id=1&amp;activity_id=1" method="GET" version="1.1"></http> </request>
       <thinktime value="2" random="true"></thinktime>
 
       <request> <http url="/standard-platform/api/v1/updateUser?fb_id=123321&amp;fb_token=123123" method="GET" version="1.1" ></http> </request>
