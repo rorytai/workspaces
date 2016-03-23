@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/share/tsung/tsung-1.0.dtd">
+<tsung loglevel="notice" version="1.0">
+ 
+  <!-- Client side setup -->
+  <clients>
+    <!--
+    <client host="localhost" use_controller_vm="true" maxusers="100000"/>
+    -->
+    <client host="tsung0" weight="1" maxusers="30000" cpu="1"/>
+    
+    <client host="tsung1" weight="2" maxusers="50000" cpu="1"/>
+    
+    <client host="tsung2" weight="2" maxusers="50000" cpu="1"/>
+  </clients>
+  
+  <!-- Server side setup -->
+  <servers>
+    <server host="54.150.230.6" port="80" type="tcp"></server>
+  </servers>
+  
+  <!--
+  <monitoring>
+    <monitor host="54.150.230.6" type="snmp"></monitor>
+  </monitoring>
+  -->
+
+  <load>
+    <arrivalphase phase="1" duration="2" unit="minute">
+      <users interarrival="0.005" unit="second"></users>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <option type="ts_http" name="user_agent">
+      <user_agent probability="80">Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.8) Gecko/20050513 Galeon/1.3.21</user_agent>
+      <user_agent probability="20">Mozilla/5.0 (Windows; U; Windows NT 5.2; fr-FR; rv:1.7.8) Gecko/20050511 Firefox/1.0.4</user_agent>
+    </option>
+  </options>
+ 
+  <sessions>
+    <session name="http-example" probability="100" type="ts_http">
+      <setdynvars sourcetype="random_number" start="1" end="100000000000000000000">
+        <var name="fb_rnd" />
+      </setdynvars>
+      <request> <http url="/standard-platform/api/v1/activityInfo?fb_id=1&amp;activity_id=1" method="GET" version="1.1"></http> </request>
+
+      <thinktime value="2" random="true"></thinktime>
+
+      <request subst="true"> <http url="/standard-platform/api/v1/updateUser?fb_id=%%_fb_rnd%%&amp;fb_token=%%_fb_rnd%%" method="POST" version="1.1" ></http> </request>
+
+      <thinktime value="2" random="true"></thinktime>
+
+      <request subst="true"> <http url="/standard-platform/api/v1/checkInUser?fb_id=%%_fb_rnd%%&amp;checkIn_id=1&amp;activity_id=1&amp;channel_id=1" method="POST" version="1.1" ></http> </request>
+
+      <thinktime value="2" random="true"></thinktime>
+
+      <request subst="true"> <http url="/standard-platform/api/v1/sendEventResult?fb_id=%%_fb_rnd%%&amp;checkIn_id=1&amp;answer=10" method="POST" version="1.1" ></http> </request>
+    </session>
+  </sessions>
+</tsung>
+
