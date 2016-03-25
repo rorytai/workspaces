@@ -6,10 +6,6 @@
   <clients>
     <!--
     <client host="localhost" use_controller_vm="true" maxusers="100000"/>
-
-    <client host="localhost" weight="1" maxusers="4000" cpu="2">
-      <ip value="54.168.81.69"/>
-    </client>
     -->
     <client host="tsung0" weight="1" maxusers="30000" cpu="1"/>
     
