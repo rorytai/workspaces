@@ -14,5 +14,8 @@
 - [tsung-staticPage-concurrent-15000.xml](scripts/tsung-staticPage-concurrent-15000.xml)
 - [tsung-staticPage-concurrent-12000.xml](scripts/tsung-staticPage-concurrent-12000.xml)
 
-## Tsung Result
-http://203.74.1.177/tsung_log/
+## Tsung Documents
+- [Tsung-million.pdf](Tsung-million.pdf)
+
+## Tsung Results
+- http://203.74.1.177/tsung_log/
