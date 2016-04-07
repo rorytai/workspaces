@@ -16,6 +16,7 @@
 
 ## Tsung Documents
 - [Tsung-million.pdf](Tsung-million.pdf)
+- [Tsung-api-flow.pdf](tsung-api-flow.pdf)
 
 ## Tsung Results
 - http://203.74.1.177/tsung_log/
