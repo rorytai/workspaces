@@ -3,6 +3,7 @@
 ## Tsung Configuration
 - [tsung.xml](tsung.xml)
 - [tsung-2getRequests-120000.xml](scripts/tsung-2getRequests-120000.xml)
+- [tsung-3requests-10persec-30min.xml](script/tsung-3Req-10persec-30min.xml)
 - [tsung-4requests-withDynvariable.xml](scripts/tsung-4requests-withDynvariable.xml)
 - [tsung-activityInfo-updateUser-36000.xml](scripts/tsung-activityInfo-updateUser-36000.xml)
 - [tsung-activityInfo-to-checkInUser-36000.xml](scripts/tsung-activityInfo-to-checkInUser-36000.xml)
