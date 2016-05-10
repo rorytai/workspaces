@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/share/tsung/tsung-1.0.dtd">
+<tsung loglevel="notice" version="1.0">
+ 
+  <!-- Client side setup -->
+  <clients>
+    <client host="localhost" use_controller_vm="true" maxusers="100000"/>
+    <!--
+    <client host="tsung0" weight="1" maxusers="40000" cpu="1"/>
+    
+    <client host="tsung3" weight="2" maxusers="50000" cpu="1"/>
+    
+    <client host="tsung4" weight="2" maxusers="50000" cpu="1"/>
+    -->
+  </clients>
+  
+  <!-- Server side setup -->
+  <servers>
+    <!--
+    <server host="platform.2tvnow.com" port="443" type="ssl"></server>
+    <server host="melon.2tvnow.com" port="80" type="tcp"></server>
+    -->
+    <server host="platform.2tvnow.com" port="443" type="ssl"></server>
+  </servers>
+
+  <!--
+  <monitoring>
+    <monitor host="platform.2tvnow.com" type="snmp"></monitor>
+  </monitoring>
+  -->
+  
+  <load duration="2" unit="minute">
+    <arrivalphase phase="1" duration="1" unit="minute">
+      <users maxnumber="10000" arrivalrate="1" unit="second"></users>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <option type="ts_http" name="user_agent">
+      <user_agent probability='100'>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36</user_agent>
+    </option>
+  </options>
+ 
+  <sessions>
+    <session name="http-example" probability="100" type="ts_http">
+      <transaction name="normal_signin">
+        <request subst="true">
+          <dyn_variable name="token_value" re=".*token...([\w\W]*)..."/>
+          <http url="https://platform.2tvnow.com/standard-platform/api/v1/ftv/signin" method="POST" version="1.1" content_type="application/x-www-form-urlencoded" contents="account=rorytai@gmail.com&amp;password=123456&amp;type=1">
+          </http>
+        </request>
+        <request subst="true">
+          <dyn_variable name="user_info" re="([\w\W]*)"/>
+          <http url="https://platform.2tvnow.com/standard-platform/api/v1/ftv/userInfo" method="POST" version="1.1" content_type="application/x-www-form-urlencoded">
+            <http_header name="Authorization" value="%%_token_value%%"/>
+          </http>
+        </request>
+        <setdynvars sourcetype="eval"
+          code='fun({_, DynVars}) ->
+                    {ok, Val} = ts_dynvars:lookup(token_value, DynVars),
+                    Value = lists:flatten(io_lib:format("~p",[Val])),
+                    {ok, File} = file:open("/home/rorytai/.tsung/myValue.csv",[append]),
+                    file:write(File, Value),
+                    file:write(File, "\n"),
+                    file:close(File),
+                    ok
+                  end.'>
+          <var name="dummy" />
+        </setdynvars>
+      </transaction>
+    </session>
+  </sessions>
+</tsung>
+
